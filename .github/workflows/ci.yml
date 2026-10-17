@@ -2,6 +2,7 @@ name: CI
 on: push
 jobs:
     test:
+        needs: lint
         runs-on: ubuntu-latest
         steps: 
            - uses: actions/checkout@v4
