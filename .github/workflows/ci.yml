@@ -10,10 +10,13 @@ jobs:
         runs-on: ubuntu-latest
         steps: 
            - uses: actions/checkout@v4
-           - uses: actions/setup-python@v4
+           - uses: actions/setup-python@v5
              with:
                  python-version: ${{matrix.python}}
-           - run: pip install pytest
+                 cache: pip
+                 cache-dependency-path: requirements.txt
+
+           - run: pip install -r requirements.txt
            - run: pytest -v
         strategy:
             matrix:
@@ -22,10 +25,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/setup-python@v4
+            - uses: actions/setup-python@v5
               with:
                   python-version: "3.12"
-            - run: pip install ruff
+                  cache: pip
+                  cache-dependency-path: requirements.txt
+            - run: pip install -r requirements.txt
             - run: ruff check .
     
     db-check:
