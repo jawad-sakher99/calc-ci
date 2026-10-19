@@ -45,6 +45,7 @@ pipeline{
                } 
             }
         }
+        /*jawad*/
         stage('db-check'){
             steps{
                 sh 'docker run -d --name pg-check -e POSTGRES_PASSWORD=test -e  POSTGRES_DB=checkdb postgres:16'
