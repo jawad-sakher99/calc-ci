@@ -45,8 +45,20 @@ pipeline{
                } 
             }
         }
+        stage('db-check'){
+            steps{
+                sh 'docker run -d --name pg-check -e POSTGRES_PASSWORD=test -e  POSTGRES_DB=checkdb postgres:16'
+                sh 'until docker exec pg-check pg_isready -U postgres; do sleep 1; done'
+                sh '''docker exec pg-check psql -U postgres -d checkdb -c "CREATE TABLE items (id INT, name TEXT) ; INSERT INTO items VALUES (1, 'item1'), (2, 'item2'), (3, 'item3'), (4, 'item4'),(5, 'item5');"'''      
+                sh '''test "$(docker exec pg-check psql -U postgres -d checkdb -t -A -c "SELECT COUNT(*) FROM items;" )" = "5"'''
+            }   
+        }
     
     
-    
+    }
+    post{
+        always{
+            sh 'docker rm pg-check || true'
+        }
     }
 }
