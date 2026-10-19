@@ -22,7 +22,7 @@ pipeline{
                 axes{
                     axis{
                         name 'PY'
-                        values '3.12', '3.12'
+                        values '3.11', '3.12'
 
                     }
 
