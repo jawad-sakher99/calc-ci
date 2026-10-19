@@ -16,5 +16,37 @@ pipeline{
                 sh 'python -m ruff check .'
             }
         }
+    
+        stage('test'){
+            matrix{
+                axes{
+                    axis{
+                        name 'PY'
+                        values '3.12', '3.12'
+
+                    }
+
+                }
+               stages{
+                stage ('pytest'){
+                    agent{
+                        docker{
+                            image "python:${PY}"
+                        }
+                    }
+                    environment{
+                        HOME = '/tmp'
+                    }
+                    steps{
+                        sh 'pip install --user -r requirements.txt'
+                        sh 'python -m pytest'                        
+                    }
+                }
+               } 
+            }
+        }
+    
+    
+    
     }
 }
