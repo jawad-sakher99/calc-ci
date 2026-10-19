@@ -58,7 +58,7 @@ pipeline{
     }
     post{
         always{
-            sh 'docker rm pg-check || true'
+            sh 'docker rm -f pg-check || true'
         }
     }
 }
