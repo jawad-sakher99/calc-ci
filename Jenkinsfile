@@ -52,7 +52,9 @@ pipeline{
         stage('db-check'){
             steps{
                 sh 'docker run -d --name $PG_NAME -e POSTGRES_PASSWORD=test -e  POSTGRES_DB=checkdb postgres:16'
-                sh 'until docker exec $PG_NAME pg_isready -U postgres; do sleep 1; done'
+                timeout (time:60, unit:'SECONDS'){
+                    sh 'until docker exec $PG_NAME pg_isready -U postgres; do sleep 1; done'
+                }
                 sh '''docker exec $PG_NAME psql -U postgres -d checkdb -c "CREATE TABLE items (id INT, name TEXT) ; INSERT INTO items VALUES (1, 'item1'), (2, 'item2'), (3, 'item3'), (4, 'item4'),(5, 'item5');"'''      
                 sh '''test "$(docker exec $PG_NAME psql -U postgres -d checkdb -t -A -c "SELECT COUNT(*) FROM items;" )" = "5"'''
             }   
