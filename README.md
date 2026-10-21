@@ -5,9 +5,16 @@ A small Python calculator with a Jenkins CI pipeline.
 ## Run Jenkins
 
 1. Build the Jenkins image (it adds the Docker CLI):
+```bash
 docker build -t jenkins-docker jenkins/
+```
+
 2. Start it:
-   docker run -d --name jenkins ... jenkins-docker
+```bash
+docker run -d --name jenkins --restart unless-stopped --group-add 984 -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins-docker
+```
+
+Note: 984 is the docker group id on my machine. Find yours with: getent group docker
 3. Open http://localhost:8080
 
 ## How the pipeline works
