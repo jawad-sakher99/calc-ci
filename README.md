@@ -23,3 +23,4 @@ Note: 984 is the docker group id on my machine. Find yours with: getent group do
 - test: runs pytest on Python 3.11 and 3.12 in parallel (matrix).
 - db-check: starts a Postgres container, creates a table with 2 columns and 5 rows, and checks the count is 5.
 - post: always removes the Postgres container, even if the build fails.
+Pull requests are built automatically by Jenkins.
