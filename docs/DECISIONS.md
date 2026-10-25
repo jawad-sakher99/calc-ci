@@ -8,10 +8,6 @@ On a server: same image, but builds should run on a separate agent.
 Why: GitHub cannot reach localhost:8080, so a webhook cannot work on my laptop. Polling lets Jenkins find new branches and pull requests by itself.
 On a server: use a webhook (payload URL https://<your-jenkins>/github-webhook/) so builds start on every push without waiting for the scan.
 
-## Jenkins polls GitHub every 5 minutes
-Why: GitHub cannot reach localhost:8080, so a webhook cannot work on my laptop. Polling lets Jenkins find new branches and pull requests by itself.
-On a server: use a webhook (payload URL https://<your-jenkins>/github-webhook/) so builds start on every push without waiting for the scan.
-
 ## Required check is pr-head, not pr-merge
 Why: Jenkins reports pr-head for the pull request build. pr-merge never arrives, so requiring it would lock the merge button forever.
 On a server: if the job is set to build the merge with main, pr-merge can be required instead.
